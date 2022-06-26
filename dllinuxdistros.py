@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from pathlib import Path
 import subprocess
 import sys
 import csv
 import hashlib
+from pathlib import Path
 
 distros_dataset_filepath = Path('data/distros.csv')
 distros_dataset_url = 'https://raw.githubusercontent.com/sheikhartin/dl-linux-distros/master/data/distros.csv'
@@ -13,8 +13,7 @@ if not distros_dataset_filepath.exists() or \
    distros_dataset_filepath.stat().st_size == 0:
     print('The distros data file does not exist. We will download it now...\n')
     distros_dataset_filepath.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(['wget', '-q', '-O', str(distros_dataset_filepath),
-                    distros_dataset_url])
+    subprocess.run(['wget', '-q', '-O', str(distros_dataset_filepath), distros_dataset_url])
 
 # Show a list of available distros, if the user asked for it.
 if len(sys.argv) > 1:
@@ -28,7 +27,7 @@ required_distro = input('Enter the distribution name: ').lower().strip()
 required_version = input('What version of the distribution? ').lower().strip()
 required_arch = input('And the architecture? ').lower().strip()
 
-# X86_64 is the same as AMD64.
+# X86_64 is the same as AMD64
 if required_arch == 'x86_64':
     required_arch = 'amd64'
 
@@ -49,6 +48,5 @@ for record in csv.DictReader(distros_dataset_filepath.open()):
             print('Checksum verified and the ISO file is ready.')
             sys.exit(0)
         else:
-            print("Checksum verification failed! Please download the ISO file"
-                  f"manually from {record['url']}.")
+            print(f"Checksum verification failed! Please download the ISO file manually from {record['url']}.")
             sys.exit(1)

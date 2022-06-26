@@ -24,7 +24,7 @@ required_distro="$(read -r -p "Enter the distribution name: "; echo "${REPLY,,}"
 required_version="$(read -r -p "What version of the distribution? "; echo "${REPLY,,}" | tr -d ' ')"
 required_arch="$(read -r -p "And the architecture? "; echo "${REPLY,,}" | tr -d ' ')"
 
-# X86_64 is the same as AMD64.
+# X86_64 is the same as AMD64
 if [[ "${required_arch}" == "x86_64" ]]; then
   required_arch="amd64"
 fi
