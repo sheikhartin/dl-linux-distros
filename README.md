@@ -1,8 +1,12 @@
 ## Download Linux Distributions Easily
 
+![GitHub repo status](https://img.shields.io/badge/status-archived-yellowgreen?style=flat)
+![GitHub contributors](https://img.shields.io/github/contributors/sheikhartin/dl-linux-distros)
+![GitHub repo size](https://img.shields.io/github/repo-size/sheikhartin/dl-linux-distros)
+
 Search on the web to download your Linux distributions, or use one of these scripts to automate the process... Which one is best for you?
 
-![It looks like someone is tired of the treadmill.](https://media.giphy.com/media/1d5TneWoAtssvR7LSE/giphy.gif)
+![It looks like someone is tired of the treadmill](https://media.giphy.com/media/1d5TneWoAtssvR7LSE/giphy.gif)
 
 ### Usage
 
