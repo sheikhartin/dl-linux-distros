@@ -1,7 +1,9 @@
 ## Download Linux Distributions Easily
 
 ![GitHub repo status](https://img.shields.io/badge/status-archived-yellowgreen?style=flat)
+![GitHub license](https://img.shields.io/github/license/sheikhartin/dl-linux-distros)
 ![GitHub contributors](https://img.shields.io/github/contributors/sheikhartin/dl-linux-distros)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sheikhartin/dl-linux-distros)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sheikhartin/dl-linux-distros)
 
 Search on the web to download your Linux distributions, or use one of these scripts to automate the process... Which one is best for you?
