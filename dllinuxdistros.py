@@ -1,52 +1,60 @@
 #!/usr/bin/env python
 
 import subprocess
+import argparse
 import sys
 import csv
 import hashlib
 from pathlib import Path
 
-distros_dataset_filepath = Path('data/distros.csv')
-distros_dataset_url = 'https://raw.githubusercontent.com/sheikhartin/dl-linux-distros/master/data/distros.csv'
-# Download the distros data file if it doesn't exist or is empty.
-if not distros_dataset_filepath.exists() or \
-   distros_dataset_filepath.stat().st_size == 0:
+dataset_filepath = Path('data/distros.csv')
+dataset_url = 'https://raw.githubusercontent.com/sheikhartin/dl-linux-distros/master/data/distros.csv'
+# If the data file doesn't exist or is empty, it will be downloaded.
+if not dataset_filepath.exists() or dataset_filepath.stat().st_size == 0:
     print('The distros data file does not exist. We will download it now...\n')
-    distros_dataset_filepath.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(['wget', '-q', '-O', str(distros_dataset_filepath), distros_dataset_url])
+    dataset_filepath.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run([
+        'wget', '-q', '-O', str(dataset_filepath), dataset_url
+    ])
 
-# Show a list of available distros, if the user asked for it.
-if len(sys.argv) > 1:
-    if sys.argv[1] == '-l' or sys.argv[1] == '--list':
-        print('distro | version | arch')
-        for row in csv.DictReader(distros_dataset_filepath.open()):
-            print(f'{row["distro"]} | {row["version"]} | {row["arch"]}')
-        sys.exit(1)
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--distro', help='the distro to download')
+parser.add_argument('-v', '--version', help='the version of the distro')
+parser.add_argument('-a', '--arch', help='the architecture of the distro')
+parser.add_argument('-l', '--list', action='store_true', help='show the list of distros')
+args = parser.parse_args()
 
-required_distro = input('Enter the distribution name: ').lower().strip()
-required_version = input('What version of the distribution? ').lower().strip()
-required_arch = input('And the architecture? ').lower().strip()
+if args.list:
+    print('distro | version | arch')
+    for row in csv.DictReader(dataset_filepath.open()):
+        print(f'{row["distro"]} | {row["version"]} | {row["arch"]}')
+    sys.exit(1)
 
-# X86_64 is the same as AMD64
-if required_arch == 'x86_64':
-    required_arch = 'amd64'
+input_distro = args.distro.lower()
+input_version = args.version.lower()
+input_arch = args.arch.lower()
 
-for record in csv.DictReader(distros_dataset_filepath.open()):
-    if record['distro'] == required_distro and \
-       record['version'] == required_version and \
-       record['arch'] == required_arch:
+# X86-64 is the same as AMD64. Read about the difference at:
+# https://www.quora.com/what-is-the-difference-between-x86_64-and-amd64
+if input_arch == 'x86-64' or input_arch == 'x86_64':
+    input_arch = 'amd64'
+
+for record in csv.DictReader(dataset_filepath.open()):
+    if record['distro'] == input_distro and \
+       record['version'] == input_version and \
+       record['arch'] == input_arch:
         print('\nDownloading the ISO file... Press Ctrl+C to abort.')
-        subprocess.run(['wget', '-c', '-O', f'{required_distro}-{required_version}-{required_arch}.iso',
-                        record['url']])
+        subprocess.run([
+            'wget', '-c', '-O', f'{input_distro}-{input_version}-{input_arch}.iso', record['url']
+        ])
 
         print('Verifying checksum...')
-        filehash = getattr(hashlib, f'sha{record["shatype"]}')(
-            Path(f'{required_distro}-{required_version}-{required_arch}.iso').read_bytes()
-        ).hexdigest()
+        filebytes = Path(f'{input_distro}-{input_version}-{input_arch}.iso').read_bytes()
+        filehash = hashlib.new(f'sha{record["shatype"]}', filebytes).hexdigest()
 
         if record['checksum'] == filehash:
             print('Checksum verified and the ISO file is ready.')
             sys.exit(0)
         else:
-            print(f"Checksum verification failed! Please download the ISO file manually from {record['url']}.")
+            print(f'Checksum verification failed! Download the ISO file manually from {record["url"]}.')
             sys.exit(1)
