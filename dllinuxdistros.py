@@ -17,7 +17,7 @@ if not dataset_filepath.exists() or dataset_filepath.stat().st_size == 0:
         'wget', '-q', '-O', str(dataset_filepath), dataset_url
     ])
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='Download GNU/Linux distributions easily with this script.')
 parser.add_argument('-d', '--distro', help='the distro to download')
 parser.add_argument('-v', '--version', help='the version of the distro')
 parser.add_argument('-a', '--arch', help='the architecture of the distro')
@@ -51,7 +51,6 @@ for record in csv.DictReader(dataset_filepath.open()):
         print('Verifying checksum...')
         filebytes = Path(f'{input_distro}-{input_version}-{input_arch}.iso').read_bytes()
         filehash = hashlib.new(f'sha{record["shatype"]}', filebytes).hexdigest()
-
         if record['checksum'] == filehash:
             print('Checksum verified and the ISO file is ready.')
             sys.exit(0)
