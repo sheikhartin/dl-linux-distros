@@ -29,11 +29,13 @@ if args.list:
     for row in csv.DictReader(dataset_filepath.open()):
         print(f'{row["distro"]} | {row["version"]} | {row["arch"]}')
     sys.exit(1)
+elif not args.distro or not args.version or not args.arch:
+    parser.print_help()
+    sys.exit(1)
 
 input_distro = args.distro.lower()
 input_version = args.version.lower()
 input_arch = args.arch.lower()
-
 # X86-64 is the same as AMD64. Read about the difference at:
 # https://www.quora.com/what-is-the-difference-between-x86_64-and-amd64
 if input_arch == 'x86-64' or input_arch == 'x86_64':
