@@ -39,7 +39,7 @@ tail -n +2 "${dataset_filepath}" \
 
     echo "Verifying checksum..."
     if [[ "${checksum}" == "$(shasum -a ${shatype} ${distro}-${version}-${arch}.iso \
-      | cut -d ' ' -f 1)" ]]; then
+      | cut -d' ' -f1)" ]]; then
       echo "Checksum verified and the ISO file is ready."
       exit 0
     else
