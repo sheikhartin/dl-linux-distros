@@ -1,6 +1,6 @@
 ## Download Linux Distributions Easily
 
-![GitHub repo status](https://img.shields.io/badge/status-archived-yellowgreen?style=flat)
+![GitHub repo status](https://img.shields.io/badge/status-active-green?style=flat)
 ![GitHub license](https://img.shields.io/github/license/sheikhartin/dl-linux-distros)
 ![GitHub contributors](https://img.shields.io/github/contributors/sheikhartin/dl-linux-distros)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sheikhartin/dl-linux-distros)
